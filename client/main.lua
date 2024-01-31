@@ -1,15 +1,46 @@
+GlobalBlips = {}
 
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() == resourceName then
+        ConfigureBlips()
+    end
+end)
 
-Citizen.CreateThread(function()
+function ConfigureBlips()
     for k, v in pairs(Config.Blips) do
-        Config.Blips[k].Blip = AddBlipForCoord(Config.Blips[k].coords.x, Config.Blips[k].coords.y, Config.Blips[k].coords.z)
-        SetBlipSprite(Config.Blips[k].Blip, Config.Blips[k].sprite)
-        SetBlipDisplay(Config.Blips[k].Blip, Config.Blips[k].display)
-        SetBlipScale(Config.Blips[k].Blip, Config.Blips[k].scale)
-        SetBlipColour(Config.Blips[k].Blip, Config.Blips[k].colour)
-        SetBlipAsShortRange(Config.Blips[k].Blip, true)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(Config.Blips[k].name)
-        EndTextCommandSetBlipName(Config.Blips[k].Blip)
+        if GlobalBlips[k] ~= nil then
+            RemoveBlip(GlobalBlips[k])
+        end
+        if v.coords ~= nil then
+            Sprite = v.sprite or Config.Default.sprite
+            Display = v.display or Config.Default.display
+            Scale = v.scale or Config.Default.scale
+            Colour = v.colour or Config.Default.colour
+            Range = v.shortrange or Config.Default.shortrange
+            GlobalBlips[k] = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
+            SetBlipSprite(GlobalBlips[k], Sprite)
+            SetBlipDisplay(GlobalBlips[k], Display)
+            SetBlipScale(GlobalBlips[k], Scale)
+            SetBlipColour(GlobalBlips[k], Colour)
+            if v.shortrange then
+                SetBlipAsShortRange(GlobalBlips[k], Range)
+            end
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentString(GlobalBlips[k])
+            EndTextCommandSetBlipName(GlobalBlips[k])
+        else
+            print("BLIPMAKER: Coords Not Set correctly. vector3 required")
+        end
+    end
+end
+
+AddEventHandler('onResourceStop', function(t) if t ~= GetCurrentResourceName() then return end
+    for k,v in pairs(GlobalBlips) do 
+        if GlobalBlips[k] ~= nil then
+            RemoveBlip(v) 
+            print("Blip = "..v.." = Removed") 
+        else
+            print("Cannot Find Blip "..v)
+        end
     end
 end)
