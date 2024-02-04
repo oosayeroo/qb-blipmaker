@@ -3,7 +3,6 @@ Config = {}
 -- Display Options
 -- 2 = Shows on both main map and minimap
 -- 3 = Shows on main map only
--- 5 = Shows on minimap only
 -- wouldnt recommend using other numbers unless you know what your doing
 
 Config.Default = { --if a custom value isnt used in config.blips it will use these variables
@@ -22,7 +21,7 @@ Config.Blips = {
         scale = 0.8, --the size of blip on map
         colour = 3,  --the colour of the blip. numbers can be found here https://docs.fivem.net/docs/game-references/blips/#blip-colors
         display = 2, --display options above
-        shortrange = false, --whether can only be seen on map when close
+        shortrange = true, --whether can only be seen on map when close (recommended true)
     },
     {
         name = "test",
@@ -30,8 +29,8 @@ Config.Blips = {
         sprite = 51, 
         scale = 1, 
         colour = 2,  
-        display = 5,
-        shortrange = false,
+        display = 2,
+        shortrange = true,
     },
     {
         name = "test",
@@ -40,6 +39,6 @@ Config.Blips = {
         scale = 1.5, 
         colour = 5,  
         display = 3, 
-        shortrange = false,
+        shortrange = true,
     },
 }

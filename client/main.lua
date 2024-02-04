@@ -6,6 +6,10 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    ConfigureBlips()
+end)
+
 function ConfigureBlips()
     for k, v in pairs(Config.Blips) do
         if GlobalBlips[k] ~= nil then
@@ -26,7 +30,7 @@ function ConfigureBlips()
                 SetBlipAsShortRange(GlobalBlips[k], Range)
             end
             BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString(GlobalBlips[k])
+            AddTextComponentString(v.name)
             EndTextCommandSetBlipName(GlobalBlips[k])
         else
             print("BLIPMAKER: Coords Not Set correctly. vector3 required")
